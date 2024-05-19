@@ -3,18 +3,20 @@ const clear = document.querySelector(".clear");
 const dateElement = document.getElementById("date");
 const list = document.getElementById("list");
 const input = document.getElementById("input");
+const CHECK = "fa-check-circle";
+const UNCHECK = "fa-circle-thin";
+const LINE_THROUGH = "lineThrough";
 let LIST, id;
 
 let data = localStorage.getItem("TODO");
+
 
 // check if data is not empty
 if(data){
     LIST = JSON.parse(data);
     id = LIST.length; // set the id to the last one in the list
-    loadList(LIST); // load the list to the user interface
-}else{
-    // if data isn't empty
-    LIST = [];
+   
+   
     id = 0;
 }
 
@@ -25,14 +27,24 @@ function loadList(array){
     });
 }
 
-// add an item to the list user the enter key
+// clear the local storage
+clear.addEventListener("click", function(){
+    localStorage.clear();
+    location.reload();
+});
 
-                    trash : false 
-                });
-            localStorage.setItem("TODO", JSON.stringify(LIST));
+// Show todays date
+const options = {weekday : "long", month:"short", day:"numeric"};
+const today = new Date();
 
-            id++;
-        }
+dateElement.innerHTML = today.toLocaleDateString("en-US", options);
+
+
+function addToDo(toDo, id, done, trash){
+
+    list.insertAdjacentHTML(position,item);
+
+}
 
 // add an item to the list user the enter key
 document.addEventListener("keyup",function(even){
@@ -48,37 +60,13 @@ document.addEventListener("keyup",function(even){
                 trash : false
             });
 
-
+            localStorage.setItem("TODO", JSON.stringify(LIST));
 
             id++;
         }
         input.value = "";
     }
 });
-
-// Classes names
-const CHECK = "fa-check-circle";
-const UNCHECK = "fa-circle-thin";
-const LINE_THROUGH = "lineThrough";
-
-function addToDo(toDo, id, done, trash){
-
-    if(trash){ return; }
-
-    const DONE = done ? CHECK : UNCHECK;
-    const LINE = done ? LINE_THROUGH : "";
-
-    const item = `<li class="item">
-                    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
-                    <p class="text ${LINE}">${toDo}</p>
-                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i>
-                  </li>
-                `;
-
-    const position = "beforeend";
-
-    list.insertAdjacentHTML(position, item);
-}
 
 function completeToDo(element){
     element.classList.toggle(CHECK);
