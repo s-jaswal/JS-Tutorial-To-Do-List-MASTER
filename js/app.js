@@ -1,23 +1,38 @@
 // CODE EXPLAINED channel
+const clear = document.querySelector(".clear");
+const dateElement = document.getElementById("date");
+const list = document.getElementById("list");
 const input = document.getElementById("input");
+let LIST, id;
 
-let LIST = [];
-let id = 0;
-LIST = [{}, {}];
+let data = localStorage.getItem("TODO");
 
-LIST[0] = {
-    name: "Drink Coffee",
-    id: 0,
-    done: false,
-    trash: false
+// check if data is not empty
+if(data){
+    LIST = JSON.parse(data);
+    id = LIST.length; // set the id to the last one in the list
+    loadList(LIST); // load the list to the user interface
+}else{
+    // if data isn't empty
+    LIST = [];
+    id = 0;
 }
 
-LIST[0] = {
-    name: "Workout",
-    id: 1,
-    done: true,
-    trash: false
+// load items to the user's interface
+function loadList(array){
+    array.forEach(function(item){
+        addToDo(item.name, item.id, item.done, item.trash);
+    });
 }
+
+// add an item to the list user the enter key
+
+                    trash : false 
+                });
+            localStorage.setItem("TODO", JSON.stringify(LIST));
+
+            id++;
+        }
 
 // add an item to the list user the enter key
 document.addEventListener("keyup",function(even){
@@ -92,3 +107,4 @@ list.addEventListener("click", function(event){
     // add item to localstorage ( this code must be added where the LIST array is updated)
     localStorage.setItem("TODO", JSON.stringify(LIST));
 });
+
