@@ -72,3 +72,23 @@ function completeToDo(element){
 
     LIST[element.id].done = LIST[element.id].done ? false : true;
 }
+
+function removeToDo(element){
+    element.parentNode.parentNode.removeChild(element.parentNode);
+
+    LIST[element.id].trash = true;
+}
+
+list.addEventListener("click", function(event){
+    const element = event.target; // return the clicked element inside list
+    const elementJob = element.attributes.job.value; // complete or delete
+
+    if(elementJob == "complete"){
+        completeToDo(element);
+    }else if(elementJob == "delete"){
+        removeToDo(element);
+    }
+
+    // add item to localstorage ( this code must be added where the LIST array is updated)
+    localStorage.setItem("TODO", JSON.stringify(LIST));
+});
